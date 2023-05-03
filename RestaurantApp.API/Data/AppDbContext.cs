@@ -10,7 +10,7 @@ namespace RestaurantApp.API.Data
         {
 
         }
-        public DbSet<Restaurant> Restaurant { get; set; }
-        public DbSet<Menu> Menu { get; set; }
+        public DbSet<Restaurant> Restaurants { get; set; }
+        public DbSet<Menu> Menus { get; set; }
     }
 }

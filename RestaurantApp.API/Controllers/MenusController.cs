@@ -8,10 +8,10 @@ namespace RestaurantApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MenuController : ControllerBase
+    public class MenusController : ControllerBase
     {
         private AppDbContext _appDbContext;
-        public MenuController(AppDbContext appDbContext)
+        public MenusController(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
@@ -20,7 +20,7 @@ namespace RestaurantApp.API.Controllers
         [HttpGet("GetMenuById/{id}")]
         public IActionResult GetMenu(int id)
         {
-            var Menu = _appDbContext.Menu.FirstOrDefault(x => x.Id == id);
+            var Menu = _appDbContext.Menus.FirstOrDefault(x => x.Id == id);
             if (Menu == null)
             {
                 return NotFound();
@@ -45,7 +45,7 @@ namespace RestaurantApp.API.Controllers
                 RestaurantId = payload.RestaurantId
             };
 
-            _appDbContext.Menu.Add(newMenu);
+            _appDbContext.Menus.Add(newMenu);
             _appDbContext.SaveChanges();
 
             return Ok("Menuja u krijua me sukses!");
@@ -56,7 +56,7 @@ namespace RestaurantApp.API.Controllers
         public IActionResult UpdateMenu([FromBody] PutMenuDTO payload, int id)
         {
             //1. Duke perdour ID marrim te dhenat nga databaza
-            var Menu = _appDbContext.Menu.FirstOrDefault(x => x.Id == id);
+            var Menu = _appDbContext.Menus.FirstOrDefault(x => x.Id == id);
             if (Menu == null)
                 return NotFound();
 
@@ -70,7 +70,7 @@ namespace RestaurantApp.API.Controllers
             Menu.RestaurantId = payload.RestaurantId;
 
             //3. Ruhen te dhenat ne database
-            _appDbContext.Menu.Update(Menu);
+            _appDbContext.Menus.Update(Menu);
             _appDbContext.SaveChanges();
 
             return Ok($"Menuja me id= {id} u modifikua me sukses!");
@@ -80,12 +80,12 @@ namespace RestaurantApp.API.Controllers
         public IActionResult DeleteMenu(int id)
         {
             //1. Duke perdour ID marrim te dhenat nga databaza
-            var Menu = _appDbContext.Menu.FirstOrDefault(x => x.Id == id);
+            var Menu = _appDbContext.Menus.FirstOrDefault(x => x.Id == id);
             if (Menu == null)
                 return NotFound();
 
             //2. Fshijme menune nga DB
-            _appDbContext.Menu.Remove(Menu);
+            _appDbContext.Menus.Remove(Menu);
             _appDbContext.SaveChanges();
 
             return Ok($"Menuja me id = {id} u fshi me sukses!");

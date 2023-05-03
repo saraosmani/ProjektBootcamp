@@ -8,10 +8,10 @@ namespace RestaurantApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RestaurantController : ControllerBase
+    public class RestaurantsController : ControllerBase
     {
         private AppDbContext _appDbContext;
-        public RestaurantController(AppDbContext appDbContext)
+        public RestaurantsController(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
@@ -21,7 +21,7 @@ namespace RestaurantApp.API.Controllers
         [HttpGet("GetRestaurant")]
         public IActionResult GetRestaurant()
         {
-            var Restaurant = _appDbContext.Restaurant.ToList();
+            var Restaurant = _appDbContext.Restaurants.ToList();
             return Ok(Restaurant);
         }
 
@@ -29,7 +29,7 @@ namespace RestaurantApp.API.Controllers
         [HttpGet("GetRestaurantById/{id}")]
         public IActionResult GetRestaurantById(int id)
         {
-            var Restaurant = _appDbContext.Restaurant.FirstOrDefault(x => x.Id == id);
+            var Restaurant = _appDbContext.Restaurants.FirstOrDefault(x => x.Id == id);
 
             if (Restaurant == null)
             {
@@ -56,7 +56,7 @@ namespace RestaurantApp.API.Controllers
 
             };
 
-            _appDbContext.Restaurant.Add(newRestaurant);
+            _appDbContext.Restaurants.Add(newRestaurant);
             _appDbContext.SaveChanges();
 
             return Ok("Restoranti u krijua me sukses!");
@@ -67,7 +67,7 @@ namespace RestaurantApp.API.Controllers
         public IActionResult UpdateRestaurant([FromBody] PutRestaurantDTO payload, int id)
         {
             //1. Duke perdour ID marrim te dhenat nga databaza
-            var Restaurant = _appDbContext.Restaurant.FirstOrDefault(x => x.Id == id);
+            var Restaurant = _appDbContext.Restaurants.FirstOrDefault(x => x.Id == id);
 
             //2. Perditesojme Restorantin e DB me te dhenat e payload-it
             if (Restaurant == null)
@@ -83,7 +83,7 @@ namespace RestaurantApp.API.Controllers
 
 
             //3. Ruhen te dhenat ne database
-            _appDbContext.Restaurant.Update(Restaurant);
+            _appDbContext.Restaurants.Update(Restaurant);
             _appDbContext.SaveChanges();
 
             return Ok($"Restoranti me id = {id} u modifikua me sukses!");
@@ -93,12 +93,12 @@ namespace RestaurantApp.API.Controllers
         [HttpDelete("DeleteRestaurantById/{id}")]
         public IActionResult DeleteRestaurant(int id)
         {
-            var Restaurant = _appDbContext.Restaurant.FirstOrDefault(x => x.Id == id);
+            var Restaurant = _appDbContext.Restaurants.FirstOrDefault(x => x.Id == id);
 
             if (Restaurant == null)
                 return NotFound();
 
-            _appDbContext.Restaurant.Remove(Restaurant);
+            _appDbContext.Restaurants.Remove(Restaurant);
             _appDbContext.SaveChanges();
 
             return Ok($"Restoranti me id = {id} u fshi me sukses!");
